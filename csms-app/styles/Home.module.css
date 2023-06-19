@@ -1,0 +1,14 @@
+ .main {
+  background-image: url('../public/images/maincover-gray.jpeg');
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 650px;
+ }
+
+ .maincontainer {
+  padding: 13% 0%;
+  text-align: center;
+  color: white;
+  text-shadow: 1px 1px 5px black;
+ }
