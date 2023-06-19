@@ -1,17 +1,22 @@
 import {projectFirestore} from '../firebaseConfig';
 
 const getCollection = async (collection) => {
-    try {
+  let results = [];
+  try {
       const snapshot = await projectFirestore.collection(collection).get();
-      const data = snapshot.docs.map((doc) => doc.data());
-      return data;
+      const data = snapshot.docs.forEach(doc=>{
+        results.push({...doc.data(), id: doc.id})
+      });
+      return results;
     } catch (error) {
       throw new Error(error.message);
     }
   };
   
+
+
   
-  const addDocument = async (collection) => {
+/*   const addDocument = async (collection) => {
   try {
     const collectionRef = projectFirestore.collection(collection);
 
@@ -44,7 +49,7 @@ const getCollection = async (collection) => {
     console.log('Document added with ID: ', newDocumentRef.id);
   } catch (error) {
     console.error('Error adding document: ', error);
-  }
-};
+  } */
+
 
   export default getCollection;
