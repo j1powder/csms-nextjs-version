@@ -1,38 +1,50 @@
 
 
 import React, { useState, useEffect } from 'react';
-import { projectStorage } from '@/firebaseConfig';
+
+// i'm initializing firebase with firebase.initializeApp(firebaseConfig)
+import { projectStorage } from '@/firebaseConfig'; // projectStorage is = firebase.storage();
+
 
 const PDFViewer = () => {
-  const [pdfUrls, setPdfUrls] = useState([]);
-
-  useEffect(() => {
-    const storageRef = projectStorage.ref();
-    const pdfRef = storageRef.child('csms-app-576bc.appspot.com'); // Replace 'pdfs' with your storage path
-
-    pdfRef.listAll().then((result) => {
+  const [pdfUrls, setPdfUrls] = useState();
+  
+  useEffect( () =>  {
+    const getPdfs = async() =>{
+      const storageRef = projectStorage.ref();
+      const pdfRef = storageRef.child('/');
       const urls = [];
-      result.items.forEach((itemRef) => {
-        itemRef.getDownloadURL().then((url) => {
-          urls.push(url);
-        });
-      });
-      setPdfUrls(urls);
-    }).catch((error) => {
-      console.error('Error retrieving PDF files:', error);
-    });
-  }, []);
+      const result = await pdfRef.listAll();
+      for (const itemRef of result.items) {
+        const url = await itemRef.getDownloadURL();
+        urls.push(url);
+    }
+  setPdfUrls(urls)
+    }
+getPdfs();
+},[])
 
- console.log( pdfUrls.map((url) => {
+ if(pdfUrls){
+  console.log(pdfUrls)
+} 
+/*  console.log( pdfUrls.map((url) => {
   return url
 })
- )
+ ) */
   return (
     <div>
       <h1>PDF Viewer</h1>
-      {pdfUrls.map((url) => (
-        <iframe key={url} src={url} width="100%" height="600px" />
-      ))}
+      <br/>
+      <ul>
+      {pdfUrls && pdfUrls.map((item)=>{
+       return <li><a href={item}>document</a></li>
+
+      }) 
+         
+         
+          }
+      </ul>
+
     </div>
   );
 };
