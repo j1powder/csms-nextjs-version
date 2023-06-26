@@ -106,10 +106,10 @@ const ContractorDashbaord = () => {
                 </TabPanel>
                 <TabPanel header="Document Center">
                   <div>
-                    <PDFViewer />
+                    <PDFViewer users={collectionData} currUser={currentUser}/>
                   </div>
                     <h3>Upload a PDF</h3>
-                    <UploadPDF />
+                    <UploadPDF users={collectionData} currUser={currentUser} />
                 </TabPanel>
             </TabView>
       
